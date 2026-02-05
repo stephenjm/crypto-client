@@ -1,0 +1,29 @@
+# Compiled class files
+*.class
+target/
+build/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Secrets (NEVER commit!)
+*.key
+*.pem
+secrets/
+
+# Test output
+test-output/
+
+# Maven
+dependency-reduced-pom.xml
