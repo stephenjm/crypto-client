@@ -1,0 +1,40 @@
+plugins {
+    id 'java-library'
+}
+
+group = 'com.stephenjm'
+version = '0.1.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // AWS SDK (optional, for AwsKmsProvider)
+    compileOnly 'software.amazon.awssdk:kms:2.20.0'
+    
+    // GCP SDK (optional, for GcpKmsProvider)
+    compileOnly 'com.google.cloud:google-cloud-kms:2.20.0'
+    
+    // Azure SDK (optional, for AzureKeyVaultProvider)
+    compileOnly 'com.azure:azure-security-keyvault-keys:4.6.0'
+    
+    // Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'org.mockito:mockito-core:5.5.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// Configure Java compilation
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
