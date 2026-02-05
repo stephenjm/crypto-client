@@ -17,6 +17,12 @@ A unified cryptographic client library that provides a consistent interface for 
 
 ## Quick Start
 
+### Gradle Dependency
+
+```groovy
+implementation 'com.stephenjm:crypto-client:0.1.0'
+```
+
 ### Maven Dependency
 
 ```xml
@@ -240,7 +246,7 @@ Benefits:
 Run all tests:
 
 ```bash
-mvn test
+./gradlew test
 ```
 
 Test coverage: **80%+**
@@ -275,22 +281,22 @@ void testEncryptDecrypt() {
 
 ```bash
 # Clean and compile
-mvn clean compile
+./gradlew clean build
 
 # Run tests
-mvn test
+./gradlew test
 
 # Package JAR
-mvn package
+./gradlew jar
 
-# Install to local Maven repository
-mvn install
+# Install to local repository
+./gradlew publishToMavenLocal
 ```
 
 ## Requirements
 
 - Java 17 or higher
-- Maven 3.8 or higher
+- Gradle 8.5 or higher (included via Gradle Wrapper)
 
 ## Dependencies
 

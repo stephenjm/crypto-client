@@ -1,7 +1,13 @@
 # Compiled class files
 *.class
-target/
 build/
+out/
+
+# Gradle
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+!gradle-wrapper.properties
 
 # IDE files
 .idea/
@@ -24,6 +30,3 @@ secrets/
 
 # Test output
 test-output/
-
-# Maven
-dependency-reduced-pom.xml

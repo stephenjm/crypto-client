@@ -61,8 +61,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - 80%+ code coverage
 
 - **Build & Documentation**
-  - Maven POM with Java 17 support
-  - `.gitignore` for Maven projects
+  - Gradle build with Java 17 support
+  - Gradle Wrapper for consistent builds
+  - `.gitignore` for Gradle projects
   - Comprehensive README.md with examples
   - CHANGELOG.md
 
