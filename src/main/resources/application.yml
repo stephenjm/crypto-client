@@ -1,0 +1,56 @@
+# Crypto Client Configuration Example
+# This demonstrates our business-specific configuration options
+
+crypto:
+  # KMS Configuration
+  kms:
+    provider: mock  # Options: mock, aws, gcp, azure
+    endpoint: http://localhost:8080
+    timeout: 30s
+  
+  # Cache Configuration - Our unique retention policies
+  cache:
+    enabled: true
+    max-size: 1000  # Our business rule: max 1000 cached keys
+    ttl: 7d  # Our business rule: 7-day key retention
+    
+    # L2 Redis Cache (optional, for multi-instance deployments)
+    redis:
+      enabled: false
+      host: localhost
+      port: 6379
+      ttl: 7d
+      encryption-enabled: true  # Our security policy: encrypt before Redis
+  
+  # Failover Configuration - Our degraded mode handling
+  failover:
+    enabled: true
+    circuit-breaker-threshold: 5  # Our threshold: 5 failures trigger circuit
+    circuit-breaker-timeout: 60s  # Our recovery window
+  
+  # Event Synchronization (optional, for key rotation)
+  events:
+    enabled: false
+    fallback:
+      enabled: false
+      interval: 1m  # Our polling interval when Redis events unavailable
+
+# Spring Boot Actuator - Health checks and metrics
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,info
+  health:
+    redis:
+      enabled: true
+  metrics:
+    distribution:
+      percentiles-histogram:
+        crypto.cache.operation.duration: true
+
+# Logging
+logging:
+  level:
+    com.stephenjm.crypto: INFO
+    com.stephenjm.crypto.spring.cache: DEBUG  # Cache operation visibility
