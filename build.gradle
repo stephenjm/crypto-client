@@ -1,9 +1,11 @@
 plugins {
     id 'java-library'
+    id 'org.springframework.boot' version '3.2.2' apply false
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
 group = 'com.stephenjm'
-version = '0.1.0'
+version = '0.2.0-SNAPSHOT'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -14,7 +16,14 @@ repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.boot:spring-boot-dependencies:3.2.2'
+    }
+}
+
 dependencies {
+    // Existing dependencies from PR #1
     // AWS SDK (optional, for AwsKmsProvider)
     compileOnly 'software.amazon.awssdk:kms:2.20.0'
     
@@ -24,10 +33,28 @@ dependencies {
     // Azure SDK (optional, for AzureKeyVaultProvider)
     compileOnly 'com.azure:azure-security-keyvault-keys:4.6.0'
     
+    // Phase 2: Spring Boot (for auto-configuration)
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    
+    // Phase 2: Caching libraries (handle low-level details)
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
+    implementation 'io.lettuce:lettuce-core:6.3.1.RELEASE'
+    
+    // Phase 2: Resilience
+    implementation 'io.github.resilience4j:resilience4j-spring-boot3:2.1.0'
+    
+    // Phase 2: Metrics
+    implementation 'io.micrometer:micrometer-core'
+    
     // Testing
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     testImplementation 'org.mockito:mockito-core:5.5.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
