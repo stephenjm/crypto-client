@@ -130,20 +130,33 @@ public class RedisDataKeyCache implements DataKeyCache {
     
     @Override
     public void clearCache() {
-        // Our unique clear operation - use pattern matching to clear only our keys
-        var keys = redisTemplate.keys("*");
-        if (keys != null && !keys.isEmpty()) {
-            redisTemplate.delete(keys);
-            metrics.recordKeyEviction("all", "clear-command");
-        }
+        // Our unique clear operation - use SCAN to avoid blocking Redis
+        redisTemplate.execute((org.springframework.data.redis.core.RedisCallback<Void>) connection -> {
+            org.springframework.data.redis.core.Cursor<byte[]> cursor = connection.scan(
+                org.springframework.data.redis.core.ScanOptions.scanOptions()
+                    .match("*")
+                    .count(100)
+                    .build()
+            );
+            
+            while (cursor.hasNext()) {
+                connection.del(cursor.next());
+            }
+            cursor.close();
+            return null;
+        });
+        metrics.recordKeyEviction("all", "clear-command");
     }
     
     /**
      * Our business operation: Estimate cache size.
-     * This is approximate since Redis is shared.
+     * Returns approximate count without blocking Redis.
      */
     private long getApproximateSize() {
-        var keys = redisTemplate.keys("*");
-        return keys != null ? keys.size() : 0;
+        // Use DBSIZE for approximate count instead of keys()
+        Long size = redisTemplate.execute((org.springframework.data.redis.core.RedisCallback<Long>) 
+            connection -> connection.dbSize()
+        );
+        return size != null ? size : 0;
     }
 }
