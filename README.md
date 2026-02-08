@@ -97,37 +97,36 @@ public class SecureDataController {
 ### Basic Usage (Standalone)
 
 ```java
-import com.stephenjm.crypto.*;
-import com.stephenjm.crypto.model.*;
-import com.stephenjm.crypto.provider.MockKmsProvider;
+
+import provider.com.crypto.MockKmsProvider;
 
 // Create client with Mock provider (for local development)
 KmsClient client = KmsClient.builder()
-    .provider(new MockKmsProvider("http://localhost:8080"))
-    .build();
+        .provider(new MockKmsProvider("http://localhost:8080"))
+        .build();
 
-// Encrypt data
-EncryptResponse encrypted = client.encrypt(
-    EncryptRequest.builder()
-        .keyId("master-key-1")
-        .plaintext("sensitive-data".getBytes())
-        .build()
-);
+        // Encrypt data
+        EncryptResponse encrypted = client.encrypt(
+                EncryptRequest.builder()
+                        .keyId("master-key-1")
+                        .plaintext("sensitive-data".getBytes())
+                        .build()
+        );
 
-// Decrypt data
-DecryptResponse decrypted = client.decrypt(
-    DecryptRequest.builder()
-        .ciphertext(encrypted.getCiphertext())
-        .build()
-);
+        // Decrypt data
+        DecryptResponse decrypted = client.decrypt(
+                DecryptRequest.builder()
+                        .ciphertext(encrypted.getCiphertext())
+                        .build()
+        );
 
-String result = new String(decrypted.getPlaintext());
+        String result = new String(decrypted.getPlaintext());
 ```
 
 ### Envelope Encryption (Recommended for Large Data)
 
 ```java
-import com.stephenjm.crypto.crypto.EnvelopeEncryption;
+import crypto.com.crypto.EnvelopeEncryption;
 
 // Create envelope encryption helper
 EnvelopeEncryption envelopeEncryption = new EnvelopeEncryption(client);
