@@ -1,32 +1,20 @@
-# Compiled class files
-*.class
+# Java / Gradle
+.gradle/
 build/
 out/
+target/
+*.class
 
-# Gradle
-.gradle/
-gradle-app.setting
-!gradle-wrapper.jar
-!gradle-wrapper.properties
-
-# IDE files
+# IDE
 .idea/
 *.iml
+*.ipr
+*.iws
 .vscode/
-*.swp
-*.swo
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
-
-# Secrets (NEVER commit!)
-*.key
-*.pem
-secrets/
-
-# Test output
-test-output/
+# Maven/Gradle wrapper caches
+.gradle/
