@@ -13,14 +13,15 @@ Different KMS providers have different APIs, error handling, and configuration a
 
 ```
 Your Application
+       
        ↓
+
 KmsClient (unified interface)
+       
        ↓
     ┌──┴──┬─────────┬──────────┐
     ▼     ▼         ▼          ▼
- AWS    GCP      Azure      Mock
- KMS    KMS      Key        KMS
-       Vault
+    AWS   GCP      Azure     Mock
 ```
 
 **Same code. Different providers. One configuration change.**
